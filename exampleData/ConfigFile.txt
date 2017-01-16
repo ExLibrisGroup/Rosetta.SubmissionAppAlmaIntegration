@@ -1,0 +1,13 @@
+alma_url=[alma_url]
+api_key=[api_key]
+digitizationDeptCode=DIGI_DEPT_INST
+sru_url=[sru_url]
+rosettaMFId=5
+rosettaProducerId=10000
+scannedFilesNFSLocation=[scannedFilesNFSLocation]
+SIPNFSLocation=[SIPNFSLocation]
+barcodeListPath=[barcodeListPath](example:SubmissionAppAlmaIntegration\exampleData\barcodelist.txt)
+rosettaUrl=[rosettaUrl]
+rosettaPasswordAuthentication=YTEyFSDFSQQ==(base64)
+user_name=admin1
+inst=INS00
