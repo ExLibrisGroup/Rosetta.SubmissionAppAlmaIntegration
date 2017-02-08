@@ -580,17 +580,17 @@ public class SubmissionAppAlmaIntegration  {
 
 	private static void initParams() {
 		
-		almaUrl =  fileConfigProperties.getProperty("alma_url");
-		ApiKey = fileConfigProperties.getProperty("api_key");
+		almaUrl =  fileConfigProperties.getProperty("almaUrl");
+		ApiKey = fileConfigProperties.getProperty("apiKey");
 		digitizationDeptCode = fileConfigProperties.getProperty("digitizationDeptCode");
-		sruUrl = fileConfigProperties.getProperty("sru_url");
+		sruUrl = fileConfigProperties.getProperty("sruUrl");
 		rosettaMFId = fileConfigProperties.getProperty("rosettaMFId");
 		rosettaProducerId = fileConfigProperties.getProperty("rosettaProducerId");
 		rosettaPasswordAuthentication   = fileConfigProperties.getProperty("rosettaPasswordAuthentication");
 		scannedFilesNFSLocation= fileConfigProperties.getProperty("scannedFilesNFSLocation");
 		SIPNFSLocation = fileConfigProperties.getProperty("SIPNFSLocation");
 		rosettaUrl = fileConfigProperties.getProperty("rosettaUrl");
-		userName = fileConfigProperties.getProperty("user_name");
+		userName = fileConfigProperties.getProperty("userName");
 		inst = fileConfigProperties.getProperty("inst");
 		
 	}
