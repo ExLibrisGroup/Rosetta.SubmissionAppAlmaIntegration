@@ -392,7 +392,7 @@ public class SubmissionAppAlmaIntegration  {
 			requestValue = request.getRequestId();
 			
 			//Scan-in item using request_id.
-			String scanUrl ="https://api-na.hosted.exlibrisgroup.com/almaws/v1/bibs/"+mmsValue+"/holdings/"+holdingValue+"/items/"+itemValue+"?op=scan&department=DIGI_DEPT_INST&request_id="+requestValue;
+			String scanUrl ="https://api-na.hosted.exlibrisgroup.com/almaws/v1/bibs/"+mmsValue+"/holdings/"+holdingValue+"/items/"+itemValue+"?op=scan&department="+digitizationDeptCode+"&request_id="+requestValue;
 			con = callAlmaApi(con,POST_METHOD,scanUrl,"");
 			xmlResponse = returnResponseContent(con,is,reader);
 			
@@ -419,7 +419,7 @@ public class SubmissionAppAlmaIntegration  {
 	 * @param barcode - the current barcode.
 	 */
 	private static void getDCrecordFromSru(String barcode) throws Exception {
-		String url = sruUrl + "/view/sru/TR_INTEGRATION_INST?version=1.2&operation=searchRetrieve&recordSchema=dc&query=alma.mms_id="+mmsValue;	
+		String url = sruUrl + "?version=1.2&operation=searchRetrieve&recordSchema=dc&query=alma.mms_id="+mmsValue;	
 		String inputLine;
         String urlContent = "";
 		try {
