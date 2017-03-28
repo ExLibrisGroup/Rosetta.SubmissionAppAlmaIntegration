@@ -82,7 +82,6 @@ public class SubmissionAppAlmaIntegration  {
 	private static String digitizationDeptCode = null;
 	private static String rosettaMFId = "";
 	private static String rosettaProducerId = "";
-	private static String rosettaPasswordAuthentication   = "";
 	private static String scannedFilesNFSLocation= "";
 	private static String SIPNFSLocation ;
 	private static String mmsValue="";
@@ -112,6 +111,7 @@ public class SubmissionAppAlmaIntegration  {
 	private static String rosettaUrl;
 	private static String userName;
 	private static String inst;
+	private static String rosettaPasswordAuthentication;
 
 
 	public static void main(String[] args) {
@@ -175,7 +175,7 @@ public class SubmissionAppAlmaIntegration  {
 		try {
 			// Set Authentication Header on service
 			DepositWebServices_Service service = new DepositWebServices_Service(getIEWsdlUrl(), new QName("http://dps.exlibris.com/", "DepositWebServices"));
-			service.setHandlerResolver(new HeaderHandlerResolver(userName, new String(Base64.decodeBase64(rosettaPasswordAuthentication)), inst));
+			service.setHandlerResolver(new HeaderHandlerResolver(userName, rosettaPasswordAuthentication, inst));
 			DepositWebServices depWebServices = service.getPort(new QName("http://dps.exlibris.com/", "DepositWebServicesPort"), DepositWebServices.class);
 			String retval = depWebServices.submitDepositActivity(null, rosettaMFId, barcode, rosettaProducerId, null);
 			DepositResultDocument depositResultDocument;
@@ -183,6 +183,7 @@ public class SubmissionAppAlmaIntegration  {
 			DepositResult depositResult = depositResultDocument.getDepositResult();
 			if(depositResult.getIsError()){
 				log.error("Failed to deposit "+"(barcode id: "+barcode+")");
+				log.error(depositResult.getMessageCode() + depositResult.getMessageDesc());
 			}else{
 				String sipID = String.valueOf(depositResult.getSipId());
 				log.info("SIP_ID: "+sipID +" for barcode: "+barcode);
@@ -194,7 +195,7 @@ public class SubmissionAppAlmaIntegration  {
 	}
 	
 	public static URL getIEWsdlUrl() throws MalformedURLException  {
-		String DEPOSIT_WSDL_URL = "http://" + rosettaUrl + "/dpsws/deposit/DepositWebServices?wsdl";
+		String DEPOSIT_WSDL_URL = rosettaUrl + "/dpsws/deposit/DepositWebServices?wsdl";
 		URL urlWsdl = new URL(DEPOSIT_WSDL_URL);
 		return urlWsdl;
 	}
@@ -353,6 +354,8 @@ public class SubmissionAppAlmaIntegration  {
 			fis = new FileInputStream(new File(args[0]));	
 			fileConfigProperties = new Properties();
 			fileConfigProperties.load(fis);
+			userName = args[1];
+			rosettaPasswordAuthentication   = args[2];
 		} catch (FileNotFoundException e) {
 			log.error(e.getMessage());
 			throw e;
@@ -392,7 +395,7 @@ public class SubmissionAppAlmaIntegration  {
 			requestValue = request.getRequestId();
 			
 			//Scan-in item using request_id.
-			String scanUrl ="https://api-na.hosted.exlibrisgroup.com/almaws/v1/bibs/"+mmsValue+"/holdings/"+holdingValue+"/items/"+itemValue+"?op=scan&department="+digitizationDeptCode+"&request_id="+requestValue;
+			String scanUrl =almaUrl+"/bibs/"+mmsValue+"/holdings/"+holdingValue+"/items/"+itemValue+"?op=scan&department="+digitizationDeptCode+"&request_id="+requestValue;
 			con = callAlmaApi(con,POST_METHOD,scanUrl,"");
 			xmlResponse = returnResponseContent(con,is,reader);
 			
@@ -586,13 +589,10 @@ public class SubmissionAppAlmaIntegration  {
 		sruUrl = fileConfigProperties.getProperty("sruUrl");
 		rosettaMFId = fileConfigProperties.getProperty("rosettaMFId");
 		rosettaProducerId = fileConfigProperties.getProperty("rosettaProducerId");
-		rosettaPasswordAuthentication   = fileConfigProperties.getProperty("rosettaPasswordAuthentication");
 		scannedFilesNFSLocation= fileConfigProperties.getProperty("scannedFilesNFSLocation");
 		SIPNFSLocation = fileConfigProperties.getProperty("SIPNFSLocation");
-		rosettaUrl = fileConfigProperties.getProperty("rosettaUrl");
-		userName = fileConfigProperties.getProperty("userName");
-		inst = fileConfigProperties.getProperty("inst");
-		
+		rosettaUrl = fileConfigProperties.getProperty("rosettaUrl");	
+		inst = fileConfigProperties.getProperty("rosettaInstCode");
 	}
 	
 	

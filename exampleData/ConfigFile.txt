@@ -8,6 +8,4 @@ scannedFilesNFSLocation=[scannedFilesNFSLocation]
 SIPNFSLocation=[SIPNFSLocation]
 barcodeListPath=[barcodeListPath]
 rosettaUrl=[rosettaUrl]
-rosettaPasswordAuthentication=[password](encoded in base64)
-userName=[userName]
-inst=[institution]
+rosettaInstCode=[institution]
